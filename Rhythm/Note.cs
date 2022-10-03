@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class Note : MonoBehaviour
 {
+    AudioSource audioSource;
     private void Awake()
     {
-        
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -23,6 +24,7 @@ public class Note : MonoBehaviour
         BeatMaker note = collision.gameObject.GetComponent<BeatMaker>();
         if (note != null && note.gethit)
         {
+            audioSource.Play();
             Debug.Log("Hit!");
             Destroy(gameObject);
         }
