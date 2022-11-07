@@ -6,37 +6,45 @@ using UnityEngine.UIElements;
 public class Generator : MonoBehaviour
 {
     public GameObject HubukiPlanet;
+    public GameObject SpeedUpItem;
+    public GameObject SpeedDownItem;
+    
     GameObject[] PlanetList;
-    int maxCount = 5;
 
-    float freq = 4.0f;
+    int maxCount = 100;
+
+    float territory = 200.0f;
+    int sideSector = 6;
+    float territoryPerSector;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        //StartCoroutine(respawn(Planet));
 
         PlanetList = new GameObject[maxCount];
-        for(int i = 0; i < maxCount; i++)
-        {
-            GameObject planets = Instantiate(HubukiPlanet, new Vector2(UnityEngine.Random.Range(-50.0f, 50.0f), UnityEngine.Random.Range(-50.0f, 50.0f)), Quaternion.identity);
-            planets.transform.localScale = Vector3.one;
-            PlanetList[i] = planets;
+
+        territoryPerSector = territory / sideSector;
+
+        var center = Vector2.zero;
+        var i = 0;
+
+        for(int sectorXpos = 0; sectorXpos < sideSector; sectorXpos++) 
+        { 
+            for(int sectorYpos = 0; sectorYpos < sideSector; sectorYpos++)
+            {
+                var xpos = UnityEngine.Random.Range(sectorXpos * territoryPerSector, (sectorXpos+1) * territoryPerSector) - territory / 2;
+                var ypos = UnityEngine.Random.Range(sectorYpos * territoryPerSector, (sectorYpos+1) * territoryPerSector) - territory / 2;
+
+                GameObject planets = Instantiate(HubukiPlanet, new Vector2(xpos, ypos), Quaternion.identity);
+                PlanetList[i++] = planets;
+            }
         }
+
     }
-
-    //IEnumerator respawn(GameObject monster)
-    //{
-    //    //Planet = Instantiate(monster, new Vector2(,0), Quaternion.identity);
-    //    //GravityObject mob = Planet.GetComponent<GravityObject>();
-    //    //yield return new WaitForSeconds(freq);
-    //    //StartCoroutine(respawn(monster));
-    //}
-
-    // Update is called once per frame
-    void Update()
+    
+    void GenerateMap()
     {
-        
+
     }
 }

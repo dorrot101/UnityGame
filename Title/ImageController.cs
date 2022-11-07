@@ -26,7 +26,5 @@ public class ImageController : MonoBehaviour
         upSpeed += time * verticalSpeed;
 
         transform.position = new Vector2(0, upSpeed);
-
-        Debug.Log(bgImage.border.w);
     }
 }
