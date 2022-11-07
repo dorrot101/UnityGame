@@ -7,6 +7,10 @@ public class CircularMovement : MonoBehaviour
     Vector2 center;
     RotateObject rotateobject;
     LineRenderer lineRenderer;
+    Camera cam;
+    public Sprite endpoint;
+
+    //public GameObject endpoint;
 
     Vector3[] points;
     int pointNum;
@@ -27,6 +31,7 @@ public class CircularMovement : MonoBehaviour
         lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.positionCount = 100;
         lineRenderer.useWorldSpace = false;
+        cam = Camera.main;
 
         ShowBoundary();
     }
@@ -44,6 +49,19 @@ public class CircularMovement : MonoBehaviour
         transform.position = radius * new Vector2(xpos, ypos);
 
         ShowBoundary();
+        ShowOuter();
+    }
+
+    void ShowOuter()
+    {
+        Vector3 viewPos = cam.WorldToViewportPoint(transform.position);
+        if(viewPos.x < 0 || viewPos.x > 1 || viewPos.y < 0 || viewPos.y > 1)
+        {
+            
+            var temp = (Vector2)(transform.position - rotateobject.transform.position).normalized;
+            Debug.Log(temp);
+        }
+
     }
 
     private void ShowBoundary()
