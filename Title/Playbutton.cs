@@ -17,7 +17,7 @@ public class Playbutton : MonoBehaviour
     void TaskOnClick()
     {
         Debug.Log("You have clicked the button");
-        SceneManager.LoadScene("MainStage");
+        SceneManager.LoadScene("Stage1");
     }
 
     // Update is called once per frame

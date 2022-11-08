@@ -12,7 +12,7 @@ public class FeelTheBeat : MonoBehaviour
     void Start()
     {
         time = 0.0f;
-        freq = 0.25f;
+        freq = 0.5f;
         maxheight = 3.0f;
     }
 

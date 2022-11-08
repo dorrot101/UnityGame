@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class collectibleitem : MonoBehaviour
+public class SpeedUpItem : MonoBehaviour
 {
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         RotateObject rotateObject = collision.gameObject.GetComponent<RotateObject>();
 
         if(rotateObject != null)
         {
-            rotateObject.SetCurrentVelocity(2.0f);
+            rotateObject.SetCurrentVelocity(1.5f);
         }
 
         Destroy(gameObject);
