@@ -8,14 +8,14 @@ public class CircularMovement : MonoBehaviour
     RotateObject rotateobject;
     LineRenderer lineRenderer;
     Camera cam;
-    public Sprite endpoint;
+    //public Sprite endpoint;
 
     //public GameObject endpoint;
 
     Vector3[] points;
     int pointNum;
 
-    float frequency = 30;
+    float frequency = 5;
     float radius = 50.0f;
     float deg;
     float lapsedTime;
@@ -26,6 +26,7 @@ public class CircularMovement : MonoBehaviour
         center = new Vector2(0, 0);
         deg = 0;
         lapsedTime = 0;
+
 
         rotateobject = GameObject.Find("Playable_planet").GetComponent<RotateObject>();
         lineRenderer = GetComponent<LineRenderer>();
@@ -49,7 +50,7 @@ public class CircularMovement : MonoBehaviour
         transform.position = radius * new Vector2(xpos, ypos);
 
         ShowBoundary();
-        ShowOuter();
+        //ShowOuter();
     }
 
     void ShowOuter()
@@ -58,8 +59,10 @@ public class CircularMovement : MonoBehaviour
         if(viewPos.x < 0 || viewPos.x > 1 || viewPos.y < 0 || viewPos.y > 1)
         {
             
-            var temp = (Vector2)(transform.position - rotateobject.transform.position).normalized;
-            Debug.Log(temp);
+            //var temp = (Vector2)(transform.position - rotateobject.transform.position).normalized;
+            //Vector3 indicator =  cam.ViewportToWorldPoint(temp);
+            //endpoint.transform.position = indicator;
+            //Debug.Log(temp);
         }
 
     }
