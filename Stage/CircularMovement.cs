@@ -8,9 +8,6 @@ public class CircularMovement : MonoBehaviour
     RotateObject rotateobject;
     LineRenderer lineRenderer;
     Camera cam;
-    //public Sprite endpoint;
-
-    //public GameObject endpoint;
 
     Vector3[] points;
     int pointNum;
@@ -23,15 +20,17 @@ public class CircularMovement : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        //
         center = new Vector2(0, 0);
         deg = 0;
         lapsedTime = 0;
 
-
         rotateobject = GameObject.Find("Playable_planet").GetComponent<RotateObject>();
+        //Initialize lineRenderer
         lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.positionCount = 100;
         lineRenderer.useWorldSpace = false;
+        //initialize cam var with main Camera
         cam = Camera.main;
 
         ShowBoundary();

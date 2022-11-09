@@ -43,7 +43,6 @@ public class RotateObject : MonoBehaviour
     public float G = 10.0f;
     public float multiple = 20.0f;
 
-
     int dashcount;
     int maxDashcount = 3;
 
@@ -52,9 +51,9 @@ public class RotateObject : MonoBehaviour
     public bool isSettling  { get { return condition[(int)State.isSettling]; } }
     public bool isSettled   { get { return condition[(int)State.isSettled]; } }
     public bool isFixed     { get { return condition[(int)State.isFixed]; } }
+    public int setMaxDashCount {set {maxDashcount = value;}}
 
     public int getDashCount { get { return dashcount; } }
-    public int charge { set { dashcount = maxDashcount; } }
 
     // Start is called before the first frame update
     void Start()
@@ -141,12 +140,16 @@ public class RotateObject : MonoBehaviour
         if (isFixed && rigidbody2d.velocity.magnitude > maxVelocity) rigidbody2d.velocity = rigidbody2d.velocity.normalized * maxVelocity;
     }
 
+    void Charge()
+    {
+        dashcount = maxDashcount;
+    }
 
     void Gravity()
     {
         //var accVector = (Vector2)(Vector3.Cross(directionVector, rotateVector).normalized);
-
         //m1 = rigidbody2d.mass;
+
         m2 = center.GetComponent<Rigidbody2D>().mass;
         
         if (isRotate)
@@ -154,7 +157,7 @@ public class RotateObject : MonoBehaviour
             var accVector = (Vector2)(center.transform.position - transform.position).normalized;
             rigidbody2d.AddForce(currentSpeed * directionVector + accVector * (Mathf.Pow(rigidbody2d.velocity.magnitude, 2) / r));
         }
-        else if(isRotate == false && isSettling == true)
+        else if(!isRotate && isSettling)
         {
             if (Vector2.Dot(center.transform.position - transform.position, directionVector) < 1e-2)
             {
@@ -170,13 +173,18 @@ public class RotateObject : MonoBehaviour
                 SetCondition(State.isSettled, true);
             }
         }
+        else if(!isRotate && !isSettling)
+        {
+            var colliderRadius = center.GetComponent<CircleCollider2D>().radius;
+            var distance = Vector2.Distance(center.transform.position, transform.position);
+            if(colliderRadius < distance) SetCondition("isSettling", true);
+        }
     }
 
-
-
-    void ShowEndPoint()
+    void Collide()
     {
-
+        SetCondition("isSettling", false);
+        SetCurrentVelocity(-1);
     }
 
     void Accelerate(float multiple)
@@ -211,13 +219,10 @@ public class RotateObject : MonoBehaviour
     {
         if (!isSettled)
         {
-            dashcount = maxDashcount;
+            Charge();
 
             this.center = center;
             SetCondition(State.isSettling, true);
         }
     }
-
-
-
 }

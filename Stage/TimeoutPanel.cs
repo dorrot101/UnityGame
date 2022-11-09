@@ -10,6 +10,7 @@ public class TimeoutPanel: MonoBehaviour
 {
     TextMeshProUGUI textmeshpro;
     RotateObject rotateobject;
+    StageManager stagemanager;
     public GameObject endPanel;
 
     float timetolive;
@@ -20,6 +21,9 @@ public class TimeoutPanel: MonoBehaviour
     void Start()
     {
         rotateobject = GameObject.Find("Playable_planet").GetComponent<RotateObject>();
+
+        stagemanager = GameObject.Find("StageManager").GetComponent<StageManager>();
+        
         textmeshpro = GetComponent<TextMeshProUGUI>();
 
         timetolive = defaultPlaytime;
@@ -49,7 +53,7 @@ public class TimeoutPanel: MonoBehaviour
             if (Input.GetKeyDown(KeyCode.R))
             {
                 Time.timeScale = 1;
-                SceneManager.LoadScene("Stage1");
+                SceneManager.LoadScene(stagemanager.getCurrentStage());
             }
         }
     }

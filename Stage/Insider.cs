@@ -12,7 +12,6 @@ public class Insider : MonoBehaviour
 
     int pointNum;
 
-    // Start is called before the first frame update
     void Awake()
     {
         rigidbody2d = GetComponent<Rigidbody2D>();
@@ -21,11 +20,12 @@ public class Insider : MonoBehaviour
 
         lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.positionCount = 360;
-
-        ShowBoundary();
+        lineRenderer.useWorldSpace = false;
+        lineRenderer.loop = true;
+        points = new Vector3[pointNum];
+        pointNum = lineRenderer.positionCount;
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
         ShowBoundary();
@@ -36,16 +36,12 @@ public class Insider : MonoBehaviour
         RotateObject rotateobject = collision.gameObject.GetComponent<RotateObject>();
         if(rotateobject != null && !rotateobject.isRotate)
         {
-            rotateobject.SetCurrentVelocity(-1);
+            rotateobject.Collide();
         }
     }
 
     private void ShowBoundary()
     {
-        pointNum = 360;
-        lineRenderer.useWorldSpace = false;
-        lineRenderer.loop = true;
-        points = new Vector3[pointNum];
         var range = circleCollider.radius;
 
         for (int i = 0; i < pointNum; i++)
@@ -56,8 +52,8 @@ public class Insider : MonoBehaviour
         lineRenderer.material.color = Color.red;
         lineRenderer.startColor = Color.red;
         lineRenderer.endColor = Color.red;
-        lineRenderer.startWidth = 0.1f;
-        lineRenderer.endWidth = 0.1f;
+        lineRenderer.startWidth = 0.05f;
+        lineRenderer.endWidth = 0.05f;
 
         lineRenderer.SetPositions(points);
     }

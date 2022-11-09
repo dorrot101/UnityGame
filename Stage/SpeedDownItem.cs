@@ -3,14 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SpeedDownItem : MonoBehaviour
-{
+{    
+    float parameter;
+
+    Awake()
+    {
+        parameter = 0.75f;
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         RotateObject rotateObject = collision.gameObject.GetComponent<RotateObject>();
 
         if(rotateObject != null)
         {
-            rotateObject.SetCurrentVelocity(0.75f);
+            rotateObject.SetCurrentVelocity(parameter);
         }
 
         Destroy(gameObject);
