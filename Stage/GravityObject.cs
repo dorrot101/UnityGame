@@ -26,7 +26,12 @@ public class GravityObject : MonoBehaviour
         lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.positionCount = 360;
         lineRenderer.useWorldSpace = false;
-        lineRenderer.loop = true
+        lineRenderer.loop = true;
+        lineRenderer.material.color = Color.white;
+        lineRenderer.startColor = Color.white;
+        lineRenderer.endColor = Color.white;
+        lineRenderer.startWidth = 0.05f;
+        lineRenderer.endWidth = 0.05f;
         pointNum = lineRenderer.positionCount;
         points = new Vector3[pointNum];
 
@@ -36,7 +41,6 @@ public class GravityObject : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("???");
         RotateObject rotateObject = collision.gameObject.GetComponent<RotateObject>();
 
         if (rotateObject != null && rotateObject.isRotate == false)
@@ -73,11 +77,6 @@ public class GravityObject : MonoBehaviour
             points[i] = new Vector3(range * Mathf.Cos(rad) , range * Mathf.Sin(rad), -1);
         }
 
-        lineRenderer.material.color = Color.white;
-        lineRenderer.startColor = Color.white;
-        lineRenderer.endColor = Color.white;
-        lineRenderer.startWidth = 0.05f;
-        lineRenderer.endWidth = 0.05f;
 
         lineRenderer.SetPositions(points);
     }

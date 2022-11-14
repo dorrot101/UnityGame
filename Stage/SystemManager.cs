@@ -9,7 +9,9 @@ public class SystemManager : MonoBehaviour
     RotateObject rotateObject;
     StageManager stagemanager;
 
+
     public GameObject boundaryOutPanel;
+    public GameObject ESCPanel;
 
     float screenHeight;
     float screenWidth;
@@ -20,19 +22,20 @@ public class SystemManager : MonoBehaviour
     public float getScreenHeight { get { return screenHeight; } }
     public float getScreenWidth { get { return screenWidth; } }
 
-    private void Start()
+    private void Awake()
     {
         screenHeight = Screen.height;
         screenWidth = Screen.width;
         
         backGround = GameObject.Find("Space Background").GetComponent<SpriteRenderer>();
+        boundaryXpos = backGround.bounds.size.x;
+        boundaryYpos = backGround.bounds.size.y;
 
         rotateObject = GameObject.Find("Playable_planet").GetComponent<RotateObject>();
 
         stagemanager = GameObject.Find("StageManager").GetComponent<StageManager>();
 
-        boundaryXpos = backGround.bounds.size.x;
-        boundaryYpos = backGround.bounds.size.y;
+        InitializePanel();
     }
 
     private void Update()
@@ -41,6 +44,19 @@ public class SystemManager : MonoBehaviour
         {
             Restart();
         }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Debug.Log("asdf");
+            Time.timeScale = 0;
+            ESCPanel.SetActive(true);
+        }
+    }
+
+    void InitializePanel()
+    {
+        boundaryOutPanel.SetActive(false);
+        ESCPanel.SetActive(false);
     }
 
     private bool isOutOfBoundary()
@@ -57,7 +73,7 @@ public class SystemManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R))
         {
             Time.timeScale = 1;
-            SceneManager.LoadScene(stagemanager.getCurrentStage);
+            SceneManager.LoadScene(stagemanager.GetCurrentStage());
         }
     }
 

@@ -2,13 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpeedDownItem : MonoBehaviour
+public class Key : MonoBehaviour
 {    
     float parameter;
+    TimeoutPanel timeoutpanel;
 
     void Awake()
     {
         parameter = 0.75f;
+        timeoutpanel = GameObject.Find("TimerText").GetComponent<TimeoutPanel>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -17,9 +19,9 @@ public class SpeedDownItem : MonoBehaviour
 
         if(rotateObject != null)
         {
-            rotateObject.SetCurrentVelocity(parameter);
+            timeoutpanel.TimeToLive += 10.0f;
+            gameObject.SetActive(false);
         }
 
-        Destroy(gameObject);
     }
 }

@@ -18,6 +18,6 @@ public class DashCountPanel : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        textmeshpro.text = player.getDashCount.ToString();
+        textmeshpro.text = player.DashCount.ToString();
     }
 }

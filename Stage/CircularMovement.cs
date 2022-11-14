@@ -8,18 +8,20 @@ public class CircularMovement : MonoBehaviour
     RotateObject rotateobject;
     LineRenderer lineRenderer;
     Camera cam;
+    KeyGenerator keyGenerator;
 
     Vector3[] points;
     int pointNum;
 
-    float frequency = 5;
-    float radius = 50.0f;
+    float frequency = 30;
+    float radius = 30.0f;
     float deg;
     float lapsedTime;
 
     // Start is called before the first frame update
     void Awake()
     {
+
         //
         center = new Vector2(0, 0);
         deg = 0;
@@ -32,23 +34,21 @@ public class CircularMovement : MonoBehaviour
         lineRenderer.useWorldSpace = false;
         //initialize cam var with main Camera
         cam = Camera.main;
-
-        ShowBoundary();
     }
     private void FixedUpdate()
     {
-        lapsedTime += Time.deltaTime;
+         lapsedTime += Time.deltaTime;
 
-        var circumference = 2.0f * Mathf.PI;
+            var circumference = 2.0f * Mathf.PI;
 
-        deg = lapsedTime * (circumference/frequency) % circumference;
+            deg = lapsedTime * (circumference / frequency) % circumference;
 
-        var xpos = Mathf.Cos(deg);
-        var ypos = Mathf.Sin(deg);
+            var xpos = Mathf.Cos(deg);
+            var ypos = Mathf.Sin(deg);
 
-        transform.position = radius * new Vector2(xpos, ypos);
+            transform.position = radius * new Vector2(xpos, ypos);
 
-        ShowBoundary();
+            ShowBoundary();
         //ShowOuter();
     }
 
@@ -81,8 +81,8 @@ public class CircularMovement : MonoBehaviour
         lineRenderer.material.color = Color.white;
         lineRenderer.startColor = Color.blue;
         lineRenderer.endColor = Color.blue;
-        lineRenderer.startWidth = 0.1f;
-        lineRenderer.endWidth = 0.1f;
+        lineRenderer.startWidth = 0.05f;
+        lineRenderer.endWidth = 0.05f;
 
         lineRenderer.SetPositions(points);
     }

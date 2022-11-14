@@ -6,7 +6,7 @@ public class SpeedUpItem : MonoBehaviour
 {
     float parameter;
 
-    Awake()
+    void Awake()
     {
         parameter = 1.5f;
     }

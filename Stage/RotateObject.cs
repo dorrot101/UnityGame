@@ -15,7 +15,8 @@ public class RotateObject : MonoBehaviour
         isAccel,
         isSettling,
         isSettled,
-        isFixed
+        isFixed,
+        isBound
     }
 
     enum Scene
@@ -31,7 +32,7 @@ public class RotateObject : MonoBehaviour
 
     Vector2 directionVector;
     Vector3 rotateVector = new Vector3(0,0,-1);
-    public GravityObject center;
+    GravityObject center;
 
     bool[] condition;
 
@@ -46,18 +47,20 @@ public class RotateObject : MonoBehaviour
     int dashcount;
     int maxDashcount = 3;
 
-    public bool isRotate    { get { return condition[(int)State.isRotate]; } }
-    public bool isAccel     { get { return condition[(int)State.isAccel]; } }
-    public bool isSettling  { get { return condition[(int)State.isSettling]; } }
-    public bool isSettled   { get { return condition[(int)State.isSettled]; } }
-    public bool isFixed     { get { return condition[(int)State.isFixed]; } }
-    public int setMaxDashCount {set {maxDashcount = value;}}
-
-    public int getDashCount { get { return dashcount; } }
+    public bool isRotate    { get { return condition[(int)State.isRotate]; }    set { condition[(int)State.isRotate] = value; } }
+    public bool isAccel     { get { return condition[(int)State.isAccel]; }     set { condition[(int)State.isAccel] = value; } }
+    public bool isSettling  { get { return condition[(int)State.isSettling]; }  set { condition[(int)State.isSettling] = value; } }
+    public bool isSettled   { get { return condition[(int)State.isSettled]; }   set { condition[(int)State.isSettled] = value; } }
+    public bool isFixed     { get { return condition[(int)State.isFixed]; }     set { condition[(int)State.isFixed] = value; } }
+    public bool isBound     { get { return condition[(int)State.isBound]; }     set { condition[(int)State.isBound] = value; } }
+    public int MaxDashCount { get { return maxDashcount; }  set {maxDashcount = value;}}
+    public int DashCount    { get { return dashcount; }     set { dashcount = value; } }
 
     // Start is called before the first frame update
     void Start()
     {
+        center = GameObject.Find("Center").GetComponent<GravityObject>();
+
         //Initialize variables
         rigidbody2d = GetComponent<Rigidbody2D>();
         range = center.GetComponent<GravityObject>().getRange;
@@ -83,14 +86,12 @@ public class RotateObject : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            ShowEndPoint();
         }
     }
 
 
     private void FixedUpdate()
     {
-
         directionVector = rigidbody2d.velocity.normalized;
         currentSpeed = rigidbody2d.velocity.magnitude;
 
@@ -106,7 +107,7 @@ public class RotateObject : MonoBehaviour
 
     void InitialCondition()
     {
-        condition = new bool[] { true, false, false, true, true };
+        condition = new bool[] { true, false, false, true, true, false };
     }
 
     void SetCondition(State state, bool change)
@@ -132,7 +133,7 @@ public class RotateObject : MonoBehaviour
 
         rigidbody2d.velocity = currentSpeed * directionVector;
 
-        maxVelocity = stageManager.getMaxVelocity();
+        maxVelocity = 10.0f;
         Debug.Log(maxVelocity);
     }
     void LimitVelocity()
@@ -140,18 +141,11 @@ public class RotateObject : MonoBehaviour
         if (isFixed && rigidbody2d.velocity.magnitude > maxVelocity) rigidbody2d.velocity = rigidbody2d.velocity.normalized * maxVelocity;
     }
 
-    void Charge()
-    {
-        dashcount = maxDashcount;
-    }
-
     void Gravity()
     {
-        //var accVector = (Vector2)(Vector3.Cross(directionVector, rotateVector).normalized);
-        //m1 = rigidbody2d.mass;
 
         m2 = center.GetComponent<Rigidbody2D>().mass;
-        
+
         if (isRotate)
         {
             var accVector = (Vector2)(center.transform.position - transform.position).normalized;
@@ -159,31 +153,35 @@ public class RotateObject : MonoBehaviour
         }
         else if(!isRotate && isSettling)
         {
-            if (Vector2.Dot(center.transform.position - transform.position, directionVector) < 1e-2)
+            if (Mathf.Abs(Vector2.Dot(center.transform.position - transform.position, directionVector)) < 0.5)
             {
-                Debug.Log("Gravity");
-
                 center.GetComponent<CircleCollider2D>().radius = Vector2.Distance(center.transform.position, transform.position) / Mathf.Max(center.transform.localScale.x, center.transform.localScale.y); 
                 r = Vector2.Distance(transform.position, center.transform.position);
-                //rotateVector = Vector2.Dot(directionVector, (Vector2)center.transform.position) > 0 ? new Vector3(0, 0, 1) : new Vector3(0, 0, -1);
-
+                
                 SetCondition(State.isRotate, true);
                 SetCondition(State.isSettling, false);
                 SetCondition(State.isFixed, true);
                 SetCondition(State.isSettled, true);
             }
         }
-        else if(!isRotate && !isSettling)
+        else if (isBound)
         {
-            var colliderRadius = center.GetComponent<CircleCollider2D>().radius;
+            Debug.Log("Bound");
+            var colliderRadius = center.GetComponent<CircleCollider2D>().radius * center.transform.localScale.x;
             var distance = Vector2.Distance(center.transform.position, transform.position);
-            if(colliderRadius < distance) SetCondition("isSettling", true);
+            if (colliderRadius <= distance)
+            {
+                SetCondition(State.isSettling, true);
+                SetCondition(State.isBound, false);
+            }
         }
+
     }
 
-    void Collide()
+    public void Collide()
     {
-        SetCondition("isSettling", false);
+        SetCondition(State.isSettling, false);
+        SetCondition(State.isBound, true);
         SetCurrentVelocity(-1);
     }
 
@@ -210,16 +208,11 @@ public class RotateObject : MonoBehaviour
         rigidbody2d.velocity = multiple * rigidbody2d.velocity;
     }
 
-    void SetMaxVelocity(float velocity)
-    {
-        maxVelocity = velocity;
-    }
-
     public void Settle(GravityObject center)
     {
         if (!isSettled)
         {
-            Charge();
+            DashCount = MaxDashCount;
 
             this.center = center;
             SetCondition(State.isSettling, true);

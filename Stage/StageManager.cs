@@ -7,9 +7,12 @@ using System;
 public class StageManager : MonoBehaviour
 {
     string currentStage;
-    int StageNo;
+    int stageNo;
     int finalStage;
 
+    int StageNo { get { return stageNo; } }
+
+    //Set of stages
     enum Stage
     {
         Stage1,
@@ -21,25 +24,29 @@ public class StageManager : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        //Get name of current scene
         currentStage = SceneManager.GetActiveScene().name;
-        StageNo = currentStage[5] - '0';
+        //Extract number of current scene
+        stageNo = currentStage[5] - '0';
+        //Get number of final stage
         finalStage = (int)Stage.End;
     }
-
-    public int getCurrentStage(){
-        return stageNo;
+    public string GetCurrentStage()
+    {
+        return currentStage;
     }
 
-    public string getNextStage()
+    public string GetNextStage()
     {
         var nextStage = "Stage" + (StageNo + 1);
 
         return StageNo < finalStage ? nextStage : "end";
     }
 
-    public float getMaxVelocity() 
+    public float GetMaxVelocity() 
     {
         var velocity = 10.0f * StageNo;
+
         return velocity;
     }
 

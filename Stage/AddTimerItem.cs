@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpeedDownItem : MonoBehaviour
-{    
+public class AddTimerItem : MonoBehaviour
+{
     float parameter;
 
     void Awake()
@@ -15,7 +15,7 @@ public class SpeedDownItem : MonoBehaviour
     {
         RotateObject rotateObject = collision.gameObject.GetComponent<RotateObject>();
 
-        if(rotateObject != null)
+        if (rotateObject != null)
         {
             rotateObject.SetCurrentVelocity(parameter);
         }

@@ -1,19 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Endpoint : MonoBehaviour
 {
     public GameObject dialogBox;
+
+    TextMeshProUGUI textmeshpro;
     StageManager stageManager;
 
     bool isPaused = false;
+    bool isEnable = false;
 
     // Start is called before the first frame update
     void Start()
     {
         stageManager = GameObject.Find("StageManager").GetComponent<StageManager>();
+
+        textmeshpro = dialogBox.GetComponent<TextMeshProUGUI>();
 
         dialogBox.SetActive(false);
     }
@@ -21,13 +27,21 @@ public class Endpoint : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         if (isPaused && Input.anyKeyDown)
         {
-            Time.timeScale = 1;
+            var nextStage = stageManager.GetNextStage();
 
-            var nextStage = stageManager.getNextScene();
-
-            SceneManager.LoadScene(nextStage);
+            if (nextStage.Equals("end"))
+            {
+                Time.timeScale = 1;
+                SceneManager.LoadScene("Title");
+            }
+            else
+            {
+                Time.timeScale = 1;
+                SceneManager.LoadScene(nextStage);
+            }
         }
     }
 

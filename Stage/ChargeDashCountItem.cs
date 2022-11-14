@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpeedDownItem : MonoBehaviour
-{    
+public class ChargeDashCountItem : MonoBehaviour
+{
     float parameter;
 
     void Awake()
     {
-        parameter = 0.75f;
+        parameter = 1.5f;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -17,7 +17,7 @@ public class SpeedDownItem : MonoBehaviour
 
         if(rotateObject != null)
         {
-            rotateObject.SetCurrentVelocity(parameter);
+            rotateObject.DashCount = rotateObject.MaxDashCount;
         }
 
         Destroy(gameObject);

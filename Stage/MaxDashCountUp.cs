@@ -6,7 +6,7 @@ public class MaxDashCountUp : MonoBehaviour
 {
     int parameter;
 
-    Awake()
+    void Awake()
     {
         parameter = 1;
     }
@@ -17,7 +17,7 @@ public class MaxDashCountUp : MonoBehaviour
 
         if(rotateObject != null)
         {
-            rotateObject.maxDashcount += parameter;
+            rotateObject.MaxDashCount += parameter;
         }
 
         Destroy(gameObject);

@@ -17,6 +17,8 @@ public class TimeoutPanel: MonoBehaviour
     const float defaultPlaytime = 20.0f;
     bool isEnd = false;
 
+    public float TimeToLive { get {return timetolive; } set { timetolive = value; } }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -34,7 +36,7 @@ public class TimeoutPanel: MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!rotateobject.isRotate)
+        if (rotateobject.isRotate)
         {
             timetolive -= Time.deltaTime;
         }
@@ -53,7 +55,7 @@ public class TimeoutPanel: MonoBehaviour
             if (Input.GetKeyDown(KeyCode.R))
             {
                 Time.timeScale = 1;
-                SceneManager.LoadScene(stagemanager.getCurrentStage());
+                SceneManager.LoadScene(stagemanager.GetCurrentStage());
             }
         }
     }
