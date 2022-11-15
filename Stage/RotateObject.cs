@@ -59,7 +59,17 @@ public class RotateObject : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        center = GameObject.Find("Center").GetComponent<GravityObject>();
+        if (SceneManager.GetActiveScene().name.Equals("Tutorial"))
+        {
+            center = GameObject.Find("Center").GetComponent<GravityObject>();
+        }
+        else
+        {
+            var centerPlanet = Resources.Load("Gravity_planet").GetComponent<GravityObject>();
+            center = Instantiate(centerPlanet, Vector3.zero, Quaternion.identity);
+        }
+
+
 
         //Initialize variables
         rigidbody2d = GetComponent<Rigidbody2D>();
