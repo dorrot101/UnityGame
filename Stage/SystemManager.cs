@@ -9,7 +9,6 @@ public class SystemManager : MonoBehaviour
     RotateObject rotateObject;
     StageManager stagemanager;
 
-
     public GameObject boundaryOutPanel;
     public GameObject ESCPanel;
 

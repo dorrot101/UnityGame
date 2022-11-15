@@ -5,12 +5,12 @@ using UnityEngine;
 public class Key : MonoBehaviour
 {    
     float parameter;
-    TimeoutPanel timeoutpanel;
+    GloabalTimer GloabalTimer;
 
     void Awake()
     {
-        parameter = 0.75f;
-        timeoutpanel = GameObject.Find("TimerText").GetComponent<TimeoutPanel>();
+        parameter = 5.0f;
+        GloabalTimer = GameObject.Find("TimerText").GetComponent<GloabalTimer>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -19,7 +19,7 @@ public class Key : MonoBehaviour
 
         if(rotateObject != null)
         {
-            timeoutpanel.TimeToLive += 10.0f;
+            GloabalTimer.TimeToLive += parameter;
             gameObject.SetActive(false);
         }
 

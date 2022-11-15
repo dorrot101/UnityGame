@@ -8,7 +8,7 @@ public class ChargeDashCountItem : MonoBehaviour
 
     void Awake()
     {
-        parameter = 1.5f;
+        // parameter = 1.5f;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

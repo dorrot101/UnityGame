@@ -26,6 +26,14 @@ public class ESCPanel : MonoBehaviour
         stageManager = GameObject.Find("StageManager").GetComponent<StageManager>();
     }
 
+    private void Update() 
+    {
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            Continue();
+        }
+    }
+
     void Continue()
     {
         Time.timeScale = 1;

@@ -32,7 +32,7 @@ public class Endpoint : MonoBehaviour
         {
             var nextStage = stageManager.GetNextStage();
 
-            if (nextStage.Equals("end"))
+            if (nextStage.Equals("End"))
             {
                 Time.timeScale = 1;
                 SceneManager.LoadScene("Title");

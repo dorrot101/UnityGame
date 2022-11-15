@@ -9,6 +9,7 @@ public class StageManager : MonoBehaviour
     string currentStage;
     int stageNo;
     int finalStage;
+    float maxVelocity = 30.0f;
 
     int StageNo { get { return stageNo; } }
 
@@ -40,14 +41,14 @@ public class StageManager : MonoBehaviour
     {
         var nextStage = "Stage" + (StageNo + 1);
 
-        return StageNo < finalStage ? nextStage : "end";
+        return StageNo < finalStage ? nextStage : "End";
     }
 
     public float GetMaxVelocity() 
     {
-        var velocity = 10.0f * StageNo;
+        var velocity = maxVelocity * StageNo;
 
-        return velocity;
+        return velocity > maxVelocity ? velocity : maxVelocity;
     }
 
 }

@@ -6,7 +6,7 @@ using UnityEngine;
 using Unity.VisualScripting;
 using UnityEngine.SceneManagement;
 
-public class TimeoutPanel: MonoBehaviour
+public class GloabalTimer: MonoBehaviour
 {
     TextMeshProUGUI textmeshpro;
     RotateObject rotateobject;
@@ -39,6 +39,10 @@ public class TimeoutPanel: MonoBehaviour
         if (rotateobject.isRotate)
         {
             timetolive -= Time.deltaTime;
+        }
+        else
+        {
+            timetolive -= 0.5f * Time.deltaTime;
         }
 
         textmeshpro.text = (Mathf.Round(timetolive * 10.0f) / 10.0f).ToString();

@@ -17,18 +17,16 @@ public class Generator : MonoBehaviour
     int sideSector = 5;
     float territoryPerSector;
 
-
     // Start is called before the first frame update
     void Awake()
     {
-
-        PlanetList = new GameObject[maxCount];
-
         GenerateMap();
     }
     
     void GenerateMap()
     {
+        PlanetList = new GameObject[maxCount];
+
         territoryPerSector = territory / sideSector;
 
         var center = Vector2.zero;
