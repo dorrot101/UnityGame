@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CircularMovement : MonoBehaviour
 {
@@ -13,8 +14,8 @@ public class CircularMovement : MonoBehaviour
     Vector3[] points;
     int pointNum;
 
-    float frequency = 30;
-    float radius = 30.0f;
+    float frequency = 10;
+    float radius = 100.0f;
     float deg = 0;
     float lapsedTime = 0;
 
@@ -23,7 +24,9 @@ public class CircularMovement : MonoBehaviour
     {
         center = new Vector2(0, 0);
         rotateobject = GameObject.Find("Playable_planet").GetComponent<RotateObject>();
-        
+
+        if (SceneManager.GetActiveScene().name.Equals("Tutorial")) radius = 40.0f;
+
         //Initialize lineRenderer
         InitializeLineRenderer(100, 0.05f, 0.05f);
         

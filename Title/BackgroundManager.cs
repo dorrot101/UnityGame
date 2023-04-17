@@ -44,23 +44,23 @@ public class BackgroundManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        var time = Time.deltaTime;
-        upSpeed += time * verticalSpeed;
+        //var time = Time.deltaTime;
+        //upSpeed += time * verticalSpeed;
 
-        //cam.transform.position = new Vector3(0, upSpeed, -10);
+        cam.transform.position = new Vector3(0, upSpeed, -10);
 
-        cam.transform.position = new Vector3(upSpeed * directionVector.x, upSpeed * directionVector.y, -10);
+        //cam.transform.position = new Vector3(upSpeed * directionVector.x, upSpeed * directionVector.y, -10);
 
 
-        if (isOutOfBoundary()) 
-        {
-            var temp = Vector2.zero;
-            var upper = new Vector2(0, -1);
-            var down = new Vector2(1, 0);
-            temp.x = upper.x * directionVector.x + upper.y * directionVector.y;
-            temp.y = down.x * directionVector.x + down.y * directionVector.y;
-            directionVector = temp;
-        }
+        //if (isOutOfBoundary()) 
+        //{
+        //    var temp = Vector2.zero;
+        //    var upper = new Vector2(0, -1);
+        //    var down = new Vector2(1, 0);
+        //    temp.x = upper.x * directionVector.x + upper.y * directionVector.y;
+        //    temp.y = down.x * directionVector.x + down.y * directionVector.y;
+        //    directionVector = temp;
+        //}
     }
 
     bool isOutOfBoundary()

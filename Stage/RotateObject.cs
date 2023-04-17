@@ -143,7 +143,7 @@ public class RotateObject : MonoBehaviour
 
         rigidbody2d.velocity = currentSpeed * directionVector;
 
-        maxVelocity = 10.0f;
+        maxVelocity = stageManager.GetMaxVelocity();
         Debug.Log(maxVelocity);
     }
     void LimitVelocity()
@@ -165,6 +165,8 @@ public class RotateObject : MonoBehaviour
         {
             if (Mathf.Abs(Vector2.Dot(center.transform.position - transform.position, directionVector)) < 0.5)
             {
+                ChargeDashCount(2);
+
                 center.GetComponent<CircleCollider2D>().radius = Vector2.Distance(center.transform.position, transform.position) / Mathf.Max(center.transform.localScale.x, center.transform.localScale.y); 
                 r = Vector2.Distance(transform.position, center.transform.position);
                 
@@ -181,7 +183,6 @@ public class RotateObject : MonoBehaviour
             var distance = Vector2.Distance(center.transform.position, transform.position);
             if (colliderRadius <= distance)
             {
-                SetCondition(State.isSettling, true);
                 SetCondition(State.isBound, false);
             }
         }
@@ -193,6 +194,8 @@ public class RotateObject : MonoBehaviour
         SetCondition(State.isSettling, false);
         SetCondition(State.isBound, true);
         SetCurrentVelocity(-1);
+
+        ChargeDashCount(1);
     }
 
     void Accelerate(float multiple)
@@ -213,6 +216,12 @@ public class RotateObject : MonoBehaviour
         }
     }
 
+    void ChargeDashCount(int value)
+    {
+        var inc = DashCount + value;
+        DashCount = inc < MaxDashCount ? inc : MaxDashCount;
+    }
+
     public void SetCurrentVelocity(float multiple)
     {
         rigidbody2d.velocity = multiple * rigidbody2d.velocity;
@@ -222,8 +231,6 @@ public class RotateObject : MonoBehaviour
     {
         if (!isSettled)
         {
-            DashCount = MaxDashCount;
-
             this.center = center;
             SetCondition(State.isSettling, true);
         }

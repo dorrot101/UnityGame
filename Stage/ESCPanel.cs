@@ -49,6 +49,7 @@ public class ESCPanel : MonoBehaviour
 
     void Quit()
     {
-        Application.Quit();
+        Time.timeScale = 1;
+        SceneManager.LoadScene("Title");
     }
 }

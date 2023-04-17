@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class Guide : MonoBehaviour
 {
+    public GameObject instructionPanel;
     public GameObject pressC;
     public GameObject dashCountGuide;
-    public GameObject TimeoutGuide;
+    public GameObject timeoutGuide;
 
     RotateObject rotateObject;
     GloabalTimer GloabalTimer;
     Camera cam;
+
+    bool isPaused = false;
 
     // Start is called before the first frame update
     void Start()
@@ -18,7 +21,9 @@ public class Guide : MonoBehaviour
         rotateObject = GameObject.Find("Playable_planet").GetComponent<RotateObject>();
         GloabalTimer = GameObject.Find("TimerText").GetComponent<GloabalTimer>();
         cam = Camera.main;
-        pressC.SetActive(false);
+        //pressC.SetActive(false);
+        //dashCountGuide.SetActive(false);
+        //timeoutGuide.SetActive(false);
     }
 
     // Update is called once per frame
@@ -28,17 +33,19 @@ public class Guide : MonoBehaviour
         {
             FollowMouseCursor();
         }
-        else if(rotateObject.DashCount == 0)
+        else pressC.SetActive(false);
+
+        if (rotateObject.DashCount == 0 && !isPaused)
         {
-            pressC.SetActive(false);
-            DashCountGuide();
+
+            rotateObject.DashCount = 3;
         }
 
         if(GloabalTimer.isEnd)
         {
             TimeoutGuide();
         }
-        
+
     }
 
     void FollowMouseCursor(){
@@ -50,23 +57,18 @@ public class Guide : MonoBehaviour
 
     void DashCountGuide()
     {
-        Time.timeScale = 0;
         dashCountGuide.SetActive(true);
-        if(Input.anyKeyDown())
+        if (Input.anyKeyDown)
         {
-            Time.timeScale = 1;
             dashCountGuide.SetActive(false);
-            rotateObject.DashCount = 3;
         }
     }
 
     void TimeoutGuide(){
-        Time.timeScale = 0;        
-        dashCountGuide.SetActive(true);
-        if(Input.anyKeyDown())
+        timeoutGuide.SetActive(true);
+        if(Input.anyKeyDown)
         {
-            Time.timeScale = 1;
-            dashCountGuide.SetActive(false);
+            timeoutGuide.SetActive(false);
             GloabalTimer.TimeToLive = 20.0f;
         }
     }

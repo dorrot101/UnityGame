@@ -11,7 +11,7 @@ public class StageManager : MonoBehaviour
     int finalStage;
     float maxVelocity = 30.0f;
 
-    int StageNo { get { return stageNo; } }
+    public int StageNo { get { return stageNo; } }
 
     //Set of stages
     enum Stage
@@ -46,9 +46,15 @@ public class StageManager : MonoBehaviour
 
     public float GetMaxVelocity() 
     {
-        var velocity = maxVelocity * StageNo;
+        var velocity = 20.0f + 0.5f * (StageNo-1);
+        if (SceneManager.GetActiveScene().name.Equals("Tutorial")) velocity = 10.0f;
 
-        return velocity > maxVelocity ? velocity : maxVelocity;
+        return velocity;
+    }
+
+    public float GetTimer()
+    {
+        return 60 /StageNo;
     }
 
 }

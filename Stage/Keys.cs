@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Keys : MonoBehaviour
 {
-    public GameObject[] Keys;
+    public GameObject[] keys;
     int maxKeyNum = 3;
 
     // Start is called before the first frame update
@@ -16,11 +16,11 @@ public class Keys : MonoBehaviour
 
     void InitializeKeys()
     {
-        Keys = new GameObject[maxKeyNum];
+        keys = new GameObject[maxKeyNum];
 
         for(int i = 0; i<maxKeyNum; i++)
         {
-           Keys[i] = transform.GetChild(i).gameObject;
+           keys[i] = transform.GetChild(i).gameObject;
         }
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class KeyGenerator : MonoBehaviour
 {
@@ -31,6 +32,8 @@ public class KeyGenerator : MonoBehaviour
         systemManager = GameObject.Find("SystemManager").GetComponent<SystemManager>();
         endpoint = GameObject.Find("Endpoint").GetComponent<Endpoint>();
 
+
+        if (SceneManager.GetActiveScene().name.Equals("Tutorial")) territory = 50.0f;
         InitializeKeys();
         endpoint.gameObject.SetActive(false);
     }
@@ -42,7 +45,8 @@ public class KeyGenerator : MonoBehaviour
         {
             KeyLists[currentKeyNum++].SetActive(true);
         }
-        else if (currentKeyNum == maxKeyNum)
+        
+        if (GetAll())
         {
             endpoint.gameObject.SetActive(true);
         }

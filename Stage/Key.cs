@@ -9,7 +9,7 @@ public class Key : MonoBehaviour
 
     void Awake()
     {
-        parameter = 5.0f;
+        parameter = 8.0f;
         GloabalTimer = GameObject.Find("TimerText").GetComponent<GloabalTimer>();
     }
 

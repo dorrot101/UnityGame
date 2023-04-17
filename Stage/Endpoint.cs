@@ -15,7 +15,7 @@ public class Endpoint : MonoBehaviour
     bool isEnable = false;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         stageManager = GameObject.Find("StageManager").GetComponent<StageManager>();
 

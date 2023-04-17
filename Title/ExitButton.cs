@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class PracticeButton : MonoBehaviour
+public class ExitButton : MonoBehaviour
 {
     public Button thisbutton;
     // Start is called before the first frame update
@@ -16,6 +16,6 @@ public class PracticeButton : MonoBehaviour
 
     void TaskOnClick()
     {
-        SceneManager.LoadScene("Tutorial");
+        Application.Quit();
     }
 }
